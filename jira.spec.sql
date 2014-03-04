@@ -46,21 +46,26 @@ as
 	jira_response_headers			text_text_arr;
 
 	procedure session_setup (
-		transport_protocol			varchar2
-		, jira_host					varchar2
-		, jira_host_port			varchar2
-		, jira_api_name				varchar2
-		, jira_api_version			varchar2
-		, wallet_location			varchar2
-		, wallet_password			varchar2
-		, jira_user 				varchar2
-		, jira_password				varchar2
+		transport_protocol			varchar2 default null
+		, jira_host					varchar2 default null
+		, jira_host_port			varchar2 default null
+		, jira_api_name				varchar2 default null
+		, jira_api_version			varchar2 default null
+		, wallet_location			varchar2 default null
+		, wallet_password			varchar2 default null
+		, jira_user 				varchar2 default null
+		, jira_password				varchar2 default null
 	);
 
 	/** Send request to Jira API
 	* @author Morten Egan
 	*/
 	procedure talk;
+
+	procedure init_talk (
+		endpoint 					varchar2
+		, endpoint_method			varchar2 default 'GET'
+	);
 
 end jira;
 /

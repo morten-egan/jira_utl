@@ -186,5 +186,18 @@ as
 
 	end talk;
 
+	procedure init_talk (
+		endpoint 				varchar2
+		, endpoint_method		varchar2 default 'GET'
+	)
+	
+	as
+	
+	begin
+	
+		null;
+	
+	end init_talk;
+	
 end jira;
 /

@@ -1,0 +1,3 @@
+chromium-browser --new-window https://developer.atlassian.com/display/JIRADEV/JIRA+REST+APIs
+chromium-browser https://docs.atlassian.com/jira/REST/ondemand/
+setsid git gui
