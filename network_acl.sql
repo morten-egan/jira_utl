@@ -25,8 +25,8 @@ dbms_network_acl_admin.add_privilege (
 
 		dbms_network_acl_admin.assign_acl (
 			acl          => 'jira_acl.xml',
-			host         => 'jira_host.mydomain',
-			lower_port	 => 80,
+			host         => 'localhost',
+			lower_port	 => 8080,
 			upper_port	 => null
 		);
 		commit;
