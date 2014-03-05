@@ -56,6 +56,22 @@ as
 
 	end session_setup;
 
+	procedure parse_jira_result
+
+	as
+
+	begin
+
+		if substr(jira_api_raw_result, 1 , 1) = '[' then
+			jira_call_result.result_type := 'JSON_LIST';
+			jira_call_result.result_list := json_list(jira_api_raw_result);
+		else
+			jira_call_result.result_type := 'JSON';
+			jira_call_result.result := json(jira_api_raw_result);
+		end if;
+
+	end parse_jira_result;
+
 	procedure talk
 
 	as
@@ -101,7 +117,7 @@ as
 		if jira_session.jira_host is not null and jira_session.jira_host_port is not null and jira_session.jira_api_name is not null and jira_session.jira_api_version is not null then
 			jira_request := utl_http.begin_request(
 				url => jira_session.transport_protocol || '://' || jira_session.jira_host || ':' || jira_session.jira_host_port || '/' || jira_session.jira_api_name || '/' || jira_session.jira_api_version || '/' || jira_call_request.call_endpoint
-				, method => github_call_request.call_method
+				, method => jira_call_request.call_method
 			);
 		else
 			raise_application_error(-20001, 'Jira site parameters invalid');
@@ -149,8 +165,8 @@ as
 		);
 
 		-- Should handle exceptions here
-		jira_call_status_code := github_response.status_code;
-		jira_call_status_reason := github_response.reason_phrase;
+		jira_call_status_code := jira_response.status_code;
+		jira_call_status_reason := jira_response.reason_phrase;
 
 		-- Load header data before reading body
 		for i in 1..utl_http.get_header_count(r => jira_response) loop
@@ -184,6 +200,9 @@ as
 			r => jira_response
 		);
 
+		-- Parse result into json
+		parse_jira_result;
+
 	end talk;
 
 	procedure init_talk (
@@ -195,7 +214,9 @@ as
 	
 	begin
 	
-		null;
+		jira_call_request.call_endpoint := endpoint;
+		jira_call_request.call_method := endpoint_method;
+		jira_call_request.call_json := json();
 	
 	end init_talk;
 	
