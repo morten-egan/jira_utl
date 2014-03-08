@@ -22,6 +22,17 @@ as
 
 	end is_number;
 
+	function get_last_issue_key
+	return varchar2
+
+	as
+
+	begin
+
+		return jira_last_issue_key;
+
+	end get_last_issue_key;
+
 begin
 
 	sys.dbms_application_info.set_client_info('jira_help');

@@ -28,7 +28,11 @@ as
 
 		if parent is not null then
 			temp_json := json();
-			temp_json.put('key', parent);
+			if jira_help.is_number(parent) then
+				temp_json.put('id', parent);
+			else
+				temp_json.put('key', parent);
+			end if;
 		end if;
 		build_json.put('parent', temp_json);
 		
